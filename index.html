@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Mou 🌸 April 19</title>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Sacramento&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --peach: #ffb347;
+    --coral: #ff6f61;
+    --sakura: #ffb7c5;
+    --blush: #ffe4e1;
+    --ivory: #fff9f0;
+    --warm: #7b3f00;
+    --gold: #e8a000;
+    --sky: #ffecd2;
+    --leaf: #a8d5a2;
+  }
+
+- { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+background: linear-gradient(160deg, #fff0e6 0%, #ffd6cc 30%, #ffe8f0 60%, #fff0d6 100%);
+font-family: ‘Lora’, serif;
+overflow-x: hidden;
+min-height: 100vh;
+cursor: none;
+}
+
+/* Background noise texture */
+body::before {
+content: ‘’;
+position: fixed; inset: 0;
+background-image: url(“data:image/svg+xml,%3Csvg viewBox=‘0 0 256 256’ xmlns=‘http://www.w3.org/2000/svg’%3E%3Cfilter id=‘n’%3E%3CfeTurbulence type=‘fractalNoise’ baseFrequency=‘0.9’ numOctaves=‘4’ stitchTiles=‘stitch’/%3E%3C/filter%3E%3Crect width=‘100%25’ height=‘100%25’ filter=‘url(%23n)’ opacity=‘0.04’/%3E%3C/svg%3E”);
+pointer-events: none;
+z-index: 0;
+opacity: 0.5;
+}
+
+/* Custom cursor */
+.cursor {
+width: 20px; height: 20px;
+border-radius: 50%;
+background: radial-gradient(circle, #fff 20%, var(–sakura) 70%, transparent);
+position: fixed;
+pointer-events: none;
+z-index: 9999;
+transform: translate(-50%, -50%);
+box-shadow: 0 0 10px var(–coral), 0 0 20px var(–sakura);
+transition: width 0.2s, height 0.2s;
+}
+
+canvas {
+position: fixed; inset: 0;
+pointer-events: none;
+z-index: 1;
+}
+
+/* Scene */
+.scene {
+position: relative;
+z-index: 2;
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+padding: 50px 20px 60px;
+}
+
+/* Today badge */
+.today-badge {
+display: inline-flex;
+align-items: center;
+gap: 8px;
+background: linear-gradient(135deg, var(–coral), var(–peach));
+color: white;
+font-family: ‘Lora’, serif;
+font-style: italic;
+font-size: 0.9rem;
+letter-spacing: 0.12em;
+padding: 8px 22px;
+border-radius: 50px;
+box-shadow: 0 4px 20px rgba(255,111,97,0.4);
+opacity: 0;
+animation: popIn 0.8s cubic-bezier(0.34,1.56,0.64,1) 0.2s forwards;
+margin-bottom: 20px;
+}
+.today-badge .dot {
+width: 8px; height: 8px;
+border-radius: 50%;
+background: white;
+animation: pulse 1.2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.6);opacity:0.5} }
+
+/* Name */
+.name-wrap {
+text-align: center;
+margin-bottom: 8px;
+}
+.name-script {
+font-family: ‘Sacramento’, cursive;
+font-size: clamp(1.4rem, 4vw, 2.2rem);
+color: var(–coral);
+letter-spacing: 0.05em;
+opacity: 0;
+animation: slideIn 0.9s ease 0.5s forwards;
+}
+.name-main {
+font-family: ‘Abril Fatface’, cursive;
+font-size: clamp(5rem, 18vw, 12rem);
+color: var(–warm);
+line-height: 0.9;
+letter-spacing: -0.02em;
+position: relative;
+opacity: 0;
+animation: slideIn 1s ease 0.3s forwards;
+text-shadow:
+4px 4px 0 rgba(232,160,0,0.3),
+8px 8px 0 rgba(255,111,97,0.15);
+}
+.name-main::after {
+content: ‘Mou’;
+position: absolute;
+inset: 0;
+background: linear-gradient(135deg, var(–coral) 0%, var(–peach) 50%, var(–gold) 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+}
+.date-line {
+font-family: ‘Lora’, serif;
+font-style: italic;
+font-size: clamp(0.9rem, 2vw, 1.15rem);
+color: var(–coral);
+letter-spacing: 0.35em;
+opacity: 0;
+animation: slideIn 1s ease 0.8s forwards;
+margin-top: 4px;
+}
+
+@keyframes slideIn {
+from { opacity: 0; transform: translateY(24px); }
+to { opacity: 1; transform: translateY(0); }
+}
+@keyframes popIn {
+from { opacity: 0; transform: scale(0.6); }
+to { opacity: 1; transform: scale(1); }
+}
+
+/* Flowers row */
+.flowers {
+display: flex;
+gap: 10px;
+margin: 24px 0 16px;
+opacity: 0;
+animation: slideIn 1s ease 1s forwards;
+}
+.flower { animation: sway var(–sw) ease-in-out infinite; transform-origin: bottom center; }
+@keyframes sway {
+0%,100% { transform: rotate(var(–r1)); }
+50% { transform: rotate(var(–r2)); }
+}
+
+/* Message card */
+.card {
+max-width: 560px;
+width: 92%;
+background: rgba(255,255,255,0.72);
+border: 1.5px solid rgba(255,183,197,0.5);
+border-radius: 28px;
+padding: 38px 40px;
+text-align: center;
+backdrop-filter: blur(16px);
+box-shadow: 0 12px 50px rgba(255,111,97,0.12), 0 2px 0 rgba(255,255,255,0.8) inset;
+margin: 16px auto;
+opacity: 0;
+animation: slideIn 1s ease 1.3s forwards;
+}
+.card-title {
+font-family: ‘Sacramento’, cursive;
+font-size: 2rem;
+color: var(–coral);
+margin-bottom: 14px;
+}
+.card p {
+font-size: clamp(1rem, 2.2vw, 1.2rem);
+color: #6b3a2a;
+line-height: 1.9;
+font-weight: 400;
+}
+.card p strong {
+color: var(–coral);
+font-weight: 600;
+}
+.divider {
+display: flex;
+align-items: center;
+gap: 10px;
+margin: 16px 0;
+opacity: 0.5;
+}
+.divider hr { flex: 1; border: none; border-top: 1px solid var(–sakura); }
+
+/* Wish list */
+.wishes {
+display: flex;
+flex-wrap: wrap;
+gap: 10px;
+justify-content: center;
+margin: 20px auto;
+max-width: 560px;
+opacity: 0;
+animation: slideIn 1s ease 1.6s forwards;
+}
+.wish-pill {
+background: rgba(255,255,255,0.8);
+border: 1px solid rgba(255,111,97,0.3);
+border-radius: 50px;
+padding: 8px 18px;
+font-size: 0.9rem;
+color: var(–warm);
+font-style: italic;
+box-shadow: 0 3px 12px rgba(255,111,97,0.1);
+animation: pillFloat var(–pf) ease-in-out infinite;
+}
+@keyframes pillFloat {
+0%,100% { transform: translateY(0); }
+50% { transform: translateY(-6px); }
+}
+
+/* Burst button */
+.burst-btn {
+margin: 24px auto 0;
+display: block;
+padding: 16px 50px;
+font-family: ‘Lora’, serif;
+font-size: 1.05rem;
+font-style: italic;
+color: white;
+background: linear-gradient(135deg, var(–coral), var(–peach));
+border: none;
+border-radius: 50px;
+cursor: pointer;
+letter-spacing: 0.1em;
+box-shadow: 0 6px 28px rgba(255,111,97,0.45);
+transition: all 0.25s ease;
+opacity: 0;
+animation: popIn 0.8s cubic-bezier(0.34,1.56,0.64,1) 1.9s forwards;
+}
+.burst-btn:hover { transform: scale(1.06) translateY(-2px); box-shadow: 0 10px 36px rgba(255,111,97,0.6); }
+
+/* Footer */
+.footer {
+text-align: center;
+color: rgba(123,63,0,0.35);
+font-size: 0.82rem;
+letter-spacing: 0.2em;
+font-style: italic;
+margin-top: 50px;
+padding-bottom: 20px;
+}
+
+/* Sparkle trail */
+.sp-trail {
+position: fixed;
+pointer-events: none;
+z-index: 9998;
+border-radius: 50%;
+animation: spFade 0.8s ease forwards;
+}
+@keyframes spFade {
+0% { opacity: 0.9; transform: scale(1); }
+100% { opacity: 0; transform: scale(0.1); }
+}
+</style>
+
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<canvas id="canvas"></canvas>
+
+<div class="scene">
+
+  <div class="today-badge">
+    <span class="dot"></span>
+    Today is the day · April 19
+  </div>
+
+  <div class="name-wrap">
+    <div class="name-script">Happy Birthday to the wonderful</div>
+    <div class="name-main">Mou</div>
+    <div class="date-line">✦ April 19 ✦</div>
+  </div>
+
+  <!-- Flower row SVGs -->
+
+  <div class="flowers">
+    <!-- Flower 1 -->
+    <svg class="flower" style="--sw:2.6s;--r1:-8deg;--r2:6deg" width="44" height="60" viewBox="0 0 44 60">
+      <line x1="22" y1="60" x2="22" y2="28" stroke="#a8d5a2" stroke-width="3" stroke-linecap="round"/>
+      <ellipse cx="22" cy="20" rx="10" ry="14" fill="#ffb7c5" opacity="0.9"/>
+      <ellipse cx="22" cy="20" rx="10" ry="14" fill="#ffb7c5" opacity="0.9" transform="rotate(45,22,20)"/>
+      <ellipse cx="22" cy="20" rx="10" ry="14" fill="#ff9eb5" opacity="0.7" transform="rotate(90,22,20)"/>
+      <ellipse cx="22" cy="20" rx="10" ry="14" fill="#ffb7c5" opacity="0.7" transform="rotate(135,22,20)"/>
+      <circle cx="22" cy="20" r="6" fill="#ffe082"/>
+    </svg>
+    <!-- Flower 2 -->
+    <svg class="flower" style="--sw:3.2s;--r1:5deg;--r2:-7deg" width="40" height="68" viewBox="0 0 40 68">
+      <line x1="20" y1="68" x2="20" y2="30" stroke="#a8d5a2" stroke-width="3" stroke-linecap="round"/>
+      <ellipse cx="20" cy="20" rx="9" ry="13" fill="#ffb347" opacity="0.85"/>
+      <ellipse cx="20" cy="20" rx="9" ry="13" fill="#ffb347" opacity="0.85" transform="rotate(60,20,20)"/>
+      <ellipse cx="20" cy="20" rx="9" ry="13" fill="#ff9e3d" opacity="0.7" transform="rotate(120,20,20)"/>
+      <circle cx="20" cy="20" r="5" fill="#fff9f0"/>
+    </svg>
+    <!-- Flower 3 (big) -->
+    <svg class="flower" style="--sw:2.9s;--r1:-6deg;--r2:8deg" width="52" height="72" viewBox="0 0 52 72">
+      <line x1="26" y1="72" x2="26" y2="32" stroke="#a8d5a2" stroke-width="3.5" stroke-linecap="round"/>
+      <ellipse cx="26" cy="22" rx="12" ry="16" fill="#ff6f61" opacity="0.8"/>
+      <ellipse cx="26" cy="22" rx="12" ry="16" fill="#ff6f61" opacity="0.8" transform="rotate(45,26,22)"/>
+      <ellipse cx="26" cy="22" rx="12" ry="16" fill="#ff8c7f" opacity="0.65" transform="rotate(90,26,22)"/>
+      <ellipse cx="26" cy="22" rx="12" ry="16" fill="#ff6f61" opacity="0.65" transform="rotate(135,26,22)"/>
+      <circle cx="26" cy="22" r="7" fill="#ffe082"/>
+      <circle cx="26" cy="22" r="3" fill="#ff9800"/>
+    </svg>
+    <!-- Flower 4 -->
+    <svg class="flower" style="--sw:3.5s;--r1:7deg;--r2:-5deg" width="40" height="68" viewBox="0 0 40 68">
+      <line x1="20" y1="68" x2="20" y2="30" stroke="#a8d5a2" stroke-width="3" stroke-linecap="round"/>
+      <ellipse cx="20" cy="20" rx="9" ry="13" fill="#e8a0bf" opacity="0.9"/>
+      <ellipse cx="20" cy="20" rx="9" ry="13" fill="#e8a0bf" opacity="0.9" transform="rotate(60,20,20)"/>
+      <ellipse cx="20" cy="20" rx="9" ry="13" fill="#d470a2" opacity="0.7" transform="rotate(120,20,20)"/>
+      <circle cx="20" cy="20" r="5" fill="#fff0f5"/>
+    </svg>
+    <!-- Flower 5 -->
+    <svg class="flower" style="--sw:2.4s;--r1:-9deg;--r2:5deg" width="44" height="60" viewBox="0 0 44 60">
+      <line x1="22" y1="60" x2="22" y2="28" stroke="#a8d5a2" stroke-width="3" stroke-linecap="round"/>
+      <ellipse cx="22" cy="20" rx="10" ry="14" fill="#ffd180" opacity="0.9"/>
+      <ellipse cx="22" cy="20" rx="10" ry="14" fill="#ffd180" opacity="0.9" transform="rotate(45,22,20)"/>
+      <ellipse cx="22" cy="20" rx="10" ry="14" fill="#ffb300" opacity="0.7" transform="rotate(90,22,20)"/>
+      <ellipse cx="22" cy="20" rx="10" ry="14" fill="#ffd180" opacity="0.7" transform="rotate(135,22,20)"/>
+      <circle cx="22" cy="20" r="6" fill="#ff6f61"/>
+    </svg>
+  </div>
+
+  <!-- Message card -->
+
+  <div class="card">
+    <div class="card-title">For you, Mou 🌸</div>
+    <p>
+      On this gorgeous <strong>April 19th</strong>, the whole world feels a little warmer,<br>
+      the flowers bloom a little brighter,<br>
+      and the breeze carries whispers of how truly <strong>special you are</strong>.
+    </p>
+    <div class="divider"><hr/><span>🌺</span><hr/></div>
+    <p>
+      May this year bring you <strong>joy overflowing</strong>, adventures worth telling,<br>
+      and every little thing that makes your heart smile.<br>
+      <strong>Happy Birthday, Mou!</strong> 🎂✨
+    </p>
+  </div>
+
+  <!-- Wish pills -->
+
+  <div class="wishes">
+    <span class="wish-pill" style="--pf:2.4s">🌟 Joy</span>
+    <span class="wish-pill" style="--pf:3.1s">🌸 Love</span>
+    <span class="wish-pill" style="--pf:2.7s">🎂 Cake</span>
+    <span class="wish-pill" style="--pf:3.4s">✈️ Adventures</span>
+    <span class="wish-pill" style="--pf:2.1s">🌈 Laughter</span>
+    <span class="wish-pill" style="--pf:2.9s">💛 Good Vibes</span>
+    <span class="wish-pill" style="--pf:3.6s">🎉 Celebration</span>
+  </div>
+
+<button class="burst-btn" id="burstBtn" onclick="burst()">🌸 Shower with Petals!</button>
+
+  <div class="footer">April 19 · Born to bloom · Happy Birthday Mou 🌸</div>
+</div>
+
+<script>
+// ── CURSOR ────────────────────────────────────────────────────
+const cursorEl = document.getElementById('cursor');
+let mx = 0, my = 0, sc = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursorEl.style.left = mx + 'px';
+  cursorEl.style.top = my + 'px';
+  if (sc++ % 2 === 0) trail(mx, my);
+});
+
+function trail(x, y) {
+  const el = document.createElement('div');
+  el.className = 'sp-trail';
+  const size = Math.random() * 10 + 4;
+  const cols = ['#ffb7c5','#ff6f61','#ffb347','#ffe082','#e8a0bf','#ffffff'];
+  el.style.cssText = `left:${x+(Math.random()-0.5)*16}px;top:${y+(Math.random()-0.5)*16}px;width:${size}px;height:${size}px;background:${cols[Math.floor(Math.random()*cols.length)]};`;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 800);
+}
+
+// ── CANVAS ───────────────────────────────────────────────────
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+let W, H;
+function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+resize(); window.addEventListener('resize', resize);
+
+const PETAL_COLORS = ['#ffb7c5','#ff9eb5','#ffd1dc','#ffb347','#ffe082','#ff6f61','#e8a0bf','#ffc8a2'];
+
+class Petal {
+  constructor(fromBurst, bx, by) {
+    this.burst = fromBurst;
+    if (fromBurst) {
+      this.x = bx + (Math.random()-0.5)*40;
+      this.y = by + (Math.random()-0.5)*40;
+      const a = Math.random() * Math.PI * 2;
+      const spd = Math.random() * 12 + 5;
+      this.vx = Math.cos(a) * spd;
+      this.vy = Math.sin(a) * spd - 4;
+    } else {
+      this.x = Math.random() * W;
+      this.y = -20;
+      this.vx = (Math.random() - 0.5) * 1.5;
+      this.vy = Math.random() * 1.4 + 0.5;
+    }
+    this.color = PETAL_COLORS[Math.floor(Math.random() * PETAL_COLORS.length)];
+    this.w = Math.random() * 14 + 6;
+    this.h = this.w * 0.5;
+    this.rot = Math.random() * Math.PI * 2;
+    this.rotV = (Math.random() - 0.5) * 0.12;
+    this.gravity = 0.12;
+    this.drag = fromBurst ? 0.97 : 0.999;
+    this.wobble = Math.random() * Math.PI * 2;
+    this.wobbleS = 0.03 + Math.random() * 0.03;
+    this.life = 1;
+    this.decay = fromBurst ? (0.008 + Math.random()*0.006) : (0.003 + Math.random()*0.003);
+    this.alpha = 1;
+  }
+  update() {
+    this.wobble += this.wobbleS;
+    this.vx += Math.sin(this.wobble) * 0.04;
+    this.vy += this.gravity;
+    this.vx *= this.drag;
+    this.vy *= this.drag;
+    this.x += this.vx;
+    this.y += this.vy;
+    this.rot += this.rotV;
+    this.life -= this.decay;
+    this.alpha = this.life;
+    return this.life > 0 && this.y < H + 40;
+  }
+  draw() {
+    ctx.save();
+    ctx.globalAlpha = Math.max(0, this.alpha);
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.rot);
+    ctx.fillStyle = this.color;
+    ctx.shadowColor = this.color;
+    ctx.shadowBlur = 4;
+    ctx.beginPath();
+    ctx.ellipse(0, 0, this.w/2, this.h/2, 0, 0, Math.PI*2);
+    ctx.fill();
+    // Petal shine
+    ctx.globalAlpha = Math.max(0, this.alpha * 0.4);
+    ctx.fillStyle = '#fff';
+    ctx.beginPath();
+    ctx.ellipse(-this.w*0.1, -this.h*0.1, this.w*0.2, this.h*0.15, -0.5, 0, Math.PI*2);
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+// Floating hearts too
+class Heart {
+  constructor() {
+    this.x = Math.random() * W;
+    this.y = H + 20;
+    this.size = Math.random() * 14 + 6;
+    this.vx = (Math.random()-0.5) * 0.8;
+    this.vy = -(Math.random() * 1.2 + 0.4);
+    this.life = 1;
+    this.decay = 0.002 + Math.random()*0.002;
+    this.wobble = Math.random() * Math.PI*2;
+    this.alpha = 0.7;
+  }
+  update() {
+    this.wobble += 0.04;
+    this.x += this.vx + Math.sin(this.wobble)*0.3;
+    this.y += this.vy;
+    this.life -= this.decay;
+    this.alpha = this.life * 0.7;
+    return this.life > 0 && this.y > -40;
+  }
+  draw() {
+    ctx.save();
+    ctx.globalAlpha = Math.max(0, this.alpha);
+    ctx.fillStyle = '#ff6f61';
+    ctx.shadowColor = '#ffb7c5';
+    ctx.shadowBlur = 8;
+    const s = this.size;
+    ctx.translate(this.x, this.y);
+    ctx.beginPath();
+    ctx.moveTo(0, s*0.3);
+    ctx.bezierCurveTo(-s*0.6,-s*0.3,-s,-s*0.1,-s*0.5,-s*0.5);
+    ctx.bezierCurveTo(-s*0.2,-s*0.9,0,-s*0.7,0,-s*0.4);
+    ctx.bezierCurveTo(0,-s*0.7,s*0.2,-s*0.9,s*0.5,-s*0.5);
+    ctx.bezierCurveTo(s,-s*0.1,s*0.6,-s*0.3,0,s*0.3);
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+let particles = [];
+let lastAmbient = 0, lastHeart = 0;
+
+function burst(bx, by) {
+  const cx = bx !== undefined ? bx : W/2;
+  const cy = by !== undefined ? by : H * 0.5;
+  for (let i = 0; i < 200; i++) particles.push(new Petal(true, cx, cy));
+}
+
+function loop(ts) {
+  ctx.clearRect(0, 0, W, H);
+  // Ambient petals
+  if (ts - lastAmbient > 180) {
+    for (let i = 0; i < 2; i++) particles.push(new Petal(false));
+    lastAmbient = ts;
+  }
+  // Occasional hearts
+  if (ts - lastHeart > 1200) {
+    particles.push(new Heart());
+    lastHeart = ts;
+  }
+  particles = particles.filter(p => { const a = p.update(); if (a) p.draw(); return a; });
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+// Click bursts anywhere
+document.addEventListener('click', e => {
+  if (e.target.id === 'burstBtn') return;
+  for (let i = 0; i < 50; i++) particles.push(new Petal(true, e.clientX, e.clientY));
+});
+</script>
+
+</body>
+</html>
